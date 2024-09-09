@@ -23,6 +23,10 @@ scene.fog = new THREE.FogExp2(skyColor, fogOpacity);
 
 const loader = new GLTFLoader();
 
+/* MUSIC */
+const backgroundMusic = document.getElementById('background-music');
+backgroundMusic.play();
+
 /* LIGHTS */
 function createLight() {
   const light = new THREE.DirectionalLight(0xffffff, 0.8);

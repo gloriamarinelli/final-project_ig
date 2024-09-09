@@ -13,6 +13,12 @@
       <button id="how-to-play">How to Play</button>
     </div>
 
+    <audio
+      id="background-music"
+      src="./music/space-sound-galaxy-185862.mp3"
+      loop
+    ></audio>
+
     <script type="importmap">
       {
         "imports": {
@@ -30,6 +36,8 @@
     <script type="module">
       document.getElementById("start-game").addEventListener("click", () => {
         document.getElementById("game-container").style.display = "none";
+
+        document.getElementById("background-music").play();
 
         import("./game.js");
       });
