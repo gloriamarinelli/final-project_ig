@@ -24,7 +24,7 @@ scene.fog = new THREE.FogExp2(skyColor, fogOpacity);
 const loader = new GLTFLoader();
 
 /* MUSIC */
-const backgroundMusic = document.getElementById('background-music');
+const backgroundMusic = document.getElementById("background-music");
 backgroundMusic.play();
 
 /* LIGHTS */
@@ -428,6 +428,15 @@ loader.load("models/space_turnip.glb", (gltf) => {
   monster = new Monster(gltf);
 });
 
+/* HIT SOUND */
+const hitSound = new Audio("music/sword-slash-with-metallic-impact-185435.mp3");
+
+function playHitSound() {
+  hitSound.play().catch((error) => {
+    console.error("Error:", error);
+  });
+}
+
 /* BALLS */
 const balls = [];
 
@@ -467,6 +476,8 @@ class Ball {
       console.log("Hit");
 
       this.collision = true;
+
+      playHitSound();
 
       scene.remove(this.mesh);
       const index = balls.indexOf(this);
