@@ -77,13 +77,13 @@ function updateTimeLives() {
 /*STARS AND PLANETS*/
 function createStars(numStars) {
   const stars = new THREE.BufferGeometry();
-  const starPositions = new Float32Array(numStars * 3);
+  const starPositions = new Float32Array(numStars * 3); //x, y, z values
 
   const material = new THREE.PointsMaterial({
     color: 0xffffff,
     size: 10,
     map: new THREE.TextureLoader().load("textures/star.png"),
-    blending: THREE.AdditiveBlending,
+    blending: THREE.AdditiveBlending, //blend with the bg
     transparent: false,
     depthWrite: false,
   });
@@ -98,7 +98,7 @@ function createStars(numStars) {
     starPositions[i * 3 + 2] = z;
   }
 
-  stars.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+  stars.setAttribute("position", new THREE.BufferAttribute(starPositions, 3)); //geometry with star positions
   const starSystem = new THREE.Points(stars, material);
 
   scene.add(starSystem);
@@ -107,7 +107,7 @@ function createStars(numStars) {
 createStars(1800);
 
 function createPlanet(size, texture, position) {
-  const geometry = new THREE.SphereGeometry(size, 32, 32);
+  const geometry = new THREE.SphereGeometry(size, 32, 32); //32, 32 num. segments that affect smoothness of the surface
   const material = new THREE.MeshStandardMaterial({
     map: new THREE.TextureLoader().load(texture),
   });
@@ -247,7 +247,7 @@ class Character {
 
   collisionBase(base) {
     if (this.speed.y <= 0 && detectCollision({ character: this, base: base })) {
-      this.speed.y = -0.2;
+      this.speed.y = -0.2; //feet on the base
       this.model.position.y = base.top + this.model.scale.y / 2;
       this.isJumping = false;
     }
@@ -266,6 +266,7 @@ class Character {
       const jumpProgress = (Date.now() - this.jumpStart) / this.jumpDuration;
 
       if (jumpProgress < 0.5) {
+        // % of the jump completed
         //ascending
         if (this.leftLeg && this.rightLeg) {
           this.leftLeg.rotation.x = (-Math.PI / 4) * jumpProgress * 2;
@@ -298,12 +299,12 @@ class Character {
         movement.ArrowDown.active
       ) {
         if (this.leftLeg && this.rightLeg) {
-          this.leftLeg.rotation.x = Math.sin(time) * 0.5;
+          this.leftLeg.rotation.x = Math.sin(time) * 0.5; //0.5 amplitude
           this.rightLeg.rotation.x = Math.cos(time) * 0.5;
         }
 
         if (this.leftArm && this.rightArm) {
-          this.leftArm.rotation.x = Math.cos(time) * 0.3;
+          this.leftArm.rotation.x = Math.cos(time) * 0.3; //0.3 amplitude
           this.rightArm.rotation.x = Math.sin(time) * 0.3;
         }
       } else {
@@ -316,20 +317,6 @@ class Character {
           this.leftArm.rotation.x = 0;
           this.rightArm.rotation.x = 0;
         }
-      }
-    }
-
-    if (this.rootBone && this.isJumping) {
-      const jumpProgress = (Date.now() - this.jumpStart) / this.jumpDuration;
-
-      if (jumpProgress < 0.5) {
-        this.rootBone.position.y = -1 + 2 * Math.sin(Math.PI * jumpProgress);
-      } else if (jumpProgress < 1) {
-        this.rootBone.position.y =
-          -1 + 2 * Math.sin(Math.PI * (1 - jumpProgress));
-      } else {
-        this.rootBone.position.y = -1;
-        this.isJumping = false;
       }
     }
   }
@@ -377,12 +364,12 @@ class Monster {
     const time = Date.now() * 0.001;
 
     this.tentacleBones.forEach((bone, index) => {
-      const angle = -Math.sin(time + index) * 1;
+      const angle = -Math.sin(time + index) * 1; //creating a waving effect
       bone.rotation.z = angle;
     });
 
     if (this.bigTentacle) {
-      const bigTentacleAngle = Math.sin(time) * 1.5;
+      const bigTentacleAngle = Math.sin(time) * 1.5; //larger oscillation amplitude (1.5)
       this.bigTentacle.rotation.z = bigTentacleAngle;
     }
 
@@ -393,6 +380,7 @@ class Monster {
     const currentTime = Date.now();
 
     if (currentTime - this.lastSpawn >= this.spawnInterval) {
+      //time passed from last ball to create new balls
       this.throwBalls();
 
       this.spawnRate = Math.min(this.spawnRate + 1, this.maxBalls);
@@ -413,9 +401,9 @@ class Monster {
       tentacle.getWorldPosition(tentaclePosition);
 
       const direction = character.model.position
-        .clone()
+        .clone() //copy character position
         .sub(tentaclePosition)
-        .normalize();
+        .normalize(); //length of 1
 
       const ball = new Ball(tentaclePosition, direction);
       this.balls.push(ball);
@@ -559,11 +547,6 @@ window.addEventListener("keyup", (e) => {
 
 /* COLLISION DETECTION */
 function detectCollision({ character, base }) {
-  if (!character || !base) return false;
-
-  if (character.updateCollisionBounds) character.updateCollisionBounds();
-  if (base.updateCollisionBounds) base.updateCollisionBounds();
-
   const char = character instanceof Character ? character.model : character;
 
   const charLeft = char.position.x - char.scale.x / 2;
