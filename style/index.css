@@ -1,0 +1,53 @@
+@font-face {
+  font-family: VeniteAdoremus;
+  src: url("../fonts/VeniteAdoremus-rgRBA.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  /*background-image: linear-gradient(120deg, #021448 0%, #07001f 100%);*/
+  background-image: url("../textures/bg1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: "VeniteAdoremus", Arial, sans-serif;
+  animation: backgroundFadeIn 5s forwards;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 100px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-family: "VeniteAdoremus", Arial, sans-serif;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #013220;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  font-family: "VeniteAdoremus", Arial, sans-serif;
+  align-items: center;
+}
+
+button:hover {
+  background-color: rgba(1, 50, 32, 0.5);
+}
