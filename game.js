@@ -445,7 +445,7 @@ class Ball {
   }
 
   update() {
-    this.mesh.position.add(this.direction.clone().multiplyScalar(this.speed));
+    this.mesh.position.add(this.direction.clone().multiplyScalar(this.speed)); //vector scaled
 
     this.boundingSphere.center.copy(this.mesh.position);
 
