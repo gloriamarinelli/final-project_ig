@@ -1,4 +1,4 @@
-# final-project_ig
+# Interactive Graphics Project
 
 **OBSIDIA GAME**
 
